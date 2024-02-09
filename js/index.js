@@ -132,7 +132,7 @@ async function getRecentAnimes(data) {
         let anime = data[pos];
         let title = anime["title"];
         let id = anime["id"];
-        let url = "/anime.html?ir=" + id;
+        let url = "/anime.html?id=" + id;
         let image = anime["thumbnail"];
         let ep = anime["category"];
         let subOrDub;
