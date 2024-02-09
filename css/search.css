@@ -182,7 +182,7 @@ section img {
         text-align: center;
         display: inline;
         margin: 0px;
-        overflow: visible;
+        overflow: auto;
         margin-top: 20px;
         width: 300px;
     }

@@ -171,7 +171,7 @@ div {
 .poster {
     box-sizing: border-box;
     text-align: center;
-    display: inline;
+    display: flex;
     padding: 20px;
     margin: 0px;
     overflow: visible;
@@ -443,7 +443,7 @@ h1 {
     .poster {
         box-sizing: border-box;
         text-align: center;
-        display: inline;
+        display: inline-block;
         margin: 0px;
         overflow: visible;
         margin-top: 20px;
@@ -508,9 +508,9 @@ h1 {
     .poster {
         box-sizing: border-box;
         text-align: center;
-        display: inline;
+        display: inline-block;
         margin: 0px;
-        overflow: visible;
+        overflow: auto;
         margin-top: 20px;
         width: 300px;
     }

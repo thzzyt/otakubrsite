@@ -1,12 +1,12 @@
 // Api urls
 
-const ProxyApi = "https://proxy.techzbots1.workers.dev/?u="
-const IndexApi = "/home";
-const recentapi = "/recent/";
+const ProxyApi = ""
+const IndexApi = "/releases";
+const recentapi = "/releases/";
 
 // Api Server Manager
 
-const AvailableServers = ['https://api1.anime-dex.workers.dev', 'https://api2.anime-dex.workers.dev', 'https://api3.anime-dex.workers.dev']
+const AvailableServers = ['https://tanoshi.digital/api/v2', 'https://animes.vision/api/v2']
 
 function getApiServer() {
     return AvailableServers[Math.floor(Math.random() * AvailableServers.length)]
@@ -42,26 +42,13 @@ function genresToString(genres) {
 }
 
 function shuffle(array) {
-    let currentIndex = array.length,
-        randomIndex;
-
-    // While there remain elements to shuffle.
-    while (currentIndex > 0) {
-        // Pick a remaining element.
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        // And swap it with the current element.
-        [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex],
-            array[currentIndex],
-        ];
-    }
+    
 
     return array;
 }
 
 // Adding slider animes (trending animes from anilist)
+
 async function getTrendingAnimes(data) {
     let SLIDER_HTML = "";
 
@@ -87,6 +74,31 @@ async function getTrendingAnimes(data) {
         SLIDER_HTML +
         '<a class="prev" onclick="plusSlides(-1)">&#10094;</a><a class="next" onclick="plusSlides(1)">&#10095;</a>';
 }
+//episodios
+async function getEpisodesAnimes(data) {
+    let EPISODES_HTML = "";
+
+    for (let pos = 0; pos < data.length; pos++) {
+        let anime = data[pos];
+        let title = anime["title_episode"];
+        let dubbed = anime["date"];
+        let idioma = anime["idioma"];
+        let id = anime["id"];
+        let url = "anime.html/post/" + id;
+        let image = anime["thumbnail"];
+        let info = anime["anime"]["title"];
+        let subOrDub;
+        if (idioma.includes("dublado")) {
+            subOrDub = "DUB";
+        } else {
+            subOrDub = "SUB";
+        }
+
+        EPISODES_HTML += `<a href="${url}"><div class="poster2 ep-anime"> <div id="shadow1" class="shadow"><div class="dubb">${title}</div> <div class="dubb dubb2">${subOrDub}</div> </div><div id="shadow2" class="shadow"> <img class="lzy_img" src="./static/loading1.gif" data-src="${image}"> </div><div class="la-details"> <h3>${info}</h3></div></div></a>`;
+    }
+
+    document.querySelector(".episodo").innerHTML = EPISODES_HTML;
+}
 
 // Adding popular animes (popular animes from gogoanime)
 async function getPopularAnimes(data) {
@@ -95,11 +107,12 @@ async function getPopularAnimes(data) {
     for (let pos = 0; pos < data.length; pos++) {
         let anime = data[pos];
         let title = anime["title"];
+        let dubbed = anime["dubbed"]
         let id = anime["id"];
-        let url = "./anime.html?anime=" + id;
-        let image = anime["image"];
+        let url = "anime.html/post/" + id;
+        let image = anime["thumbnail"];
         let subOrDub;
-        if (title.toLowerCase().includes("dub")) {
+        if (dubbed = true) {
             subOrDub = "DUB";
         } else {
             subOrDub = "SUB";
@@ -112,19 +125,18 @@ async function getPopularAnimes(data) {
     document.querySelector(".popularg").innerHTML = POPULAR_HTML;
 }
 // Adding popular animes (popular animes from gogoanime)
-async function getRecentAnimes(page = 1) {
-    const data = (await getJson(recentapi + page))["results"];
+async function getRecentAnimes(data) {
     let RECENT_HTML = "";
 
     for (let pos = 0; pos < data.length; pos++) {
         let anime = data[pos];
         let title = anime["title"];
-        let id = anime["id"].split("-episode-")[0];
-        let url = "./anime.html?anime=" + id;
-        let image = anime["image"];
-        let ep = anime["episode"].split(" ")[1];
+        let id = anime["id"];
+        let url = "post/" + id;
+        let image = anime["thumbnail"];
+        let ep = anime["category"];
         let subOrDub;
-        if (title.toLowerCase().includes("dub")) {
+        if (title.toLowerCase().includes("dublado")) {
             subOrDub = "DUB";
         } else {
             subOrDub = "SUB";
@@ -208,17 +220,17 @@ let isLoading = false;
 async function loadAnimes() {
     try {
         if (isLoading == false) {
-            isLoading = true;
-            await getRecentAnimes(page)
-            RefreshLazyLoader();
+            //isLoading = true;
+            //await getRecentAnimes(page)
+            //RefreshLazyLoader();
             console.log("Recent animes loaded");
-            page += 1;
-            isLoading = false;
+            //page += 1;
+            //isLoading = false;
         }
     } catch (error) {
-        isLoading = false;
+        //isLoading = false;
         console.error(`Failed To Load Recent Animes Page : ${page}`);
-        page += 1;
+        //page += 1;
     }
 }
 
@@ -230,7 +242,7 @@ window.addEventListener('scroll', function () {
     const documentHeight = document.documentElement.scrollHeight;
 
     if ((scrollPosition + (3 * windowHeight)) >= documentHeight) {
-        loadAnimes();
+        //loadAnimes();
     }
 });
 
@@ -238,23 +250,28 @@ window.addEventListener('scroll', function () {
 // Running functions
 
 getJson(IndexApi).then((data) => {
-    data = data["results"];
-    const anilistTrending = shuffle(data["anilistTrending"]);
-    const gogoanimePopular = shuffle(data["gogoPopular"]);
+    const EpisodesAnimes = shuffle(data["lancamentos"]);
+    const anilistTrending = shuffle(data["mais_vistos"]);
+    const gogoanimePopular = shuffle(data["ultimos_adicionados"]);
 
-    getTrendingAnimes(anilistTrending).then((data) => {
+    getTrendingAnimes(0).then((data) => {
         RefreshLazyLoader();
         showSlides(slideIndex);
         showSlides2();
         console.log("Sliders loaded");
     });
 
-    getPopularAnimes(gogoanimePopular).then((data) => {
+    getEpisodesAnimes(EpisodesAnimes).then((data) => {
+        RefreshLazyLoader();
+        console.log("Episodes animes loaded");
+    });
+
+    getPopularAnimes(anilistTrending).then((data) => {
         RefreshLazyLoader();
         console.log("Popular animes loaded");
     });
 
-    getRecentAnimes(1).then((data) => {
+    getRecentAnimes(gogoanimePopular).then((data) => {
         RefreshLazyLoader();
         console.log("Recent animes loaded");
     });

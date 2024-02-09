@@ -99,7 +99,7 @@ body {
 
 section {
     position: relative;
-    width: 100%;
+    width: fit-content;
     margin: 0px;
     height: fit-content;
 }
@@ -131,6 +131,16 @@ section img {
     border-radius: 5px;
     margin: auto;
 }
+
+section img2 {
+    box-sizing: border-box;
+    height: fit-content;
+    max-width: 300px;
+    border: 5px solid white;
+    border-radius: 5px;
+    margin: auto;
+}
+
 
 h1 {
     font-family: "Montserrat", sans-serif;
@@ -222,6 +232,16 @@ h1 {
         box-sizing: border-box;
         height: fit-content;
         max-width: 300px;
+        width: fit-content;
+        border: 5px solid white;
+        border-radius: 5px;
+        margin: auto;
+    }
+
+    section img2 {
+        box-sizing: border-box;
+        height: fit-content;
+        max-width: 300px;
         width: 100%;
         border: 5px solid white;
         border-radius: 5px;
@@ -236,6 +256,16 @@ h1 {
         overflow: visible;
         margin-top: 20px;
         width: 250px;
+    }
+
+    .poster2 {
+        box-sizing: border-box;
+        text-align: center;
+        display: inline;
+        margin: 0px;
+        overflow: visible;
+        margin-top: 20px;
+        width: 300px;
     }
 }
 
@@ -259,6 +289,17 @@ h1 {
         margin-top: 20px;
         width: 300px;
     }
+
+    .poster2 {
+        box-sizing: border-box;
+        text-align: center;
+        display: inline;
+        margin: 0px;
+        overflow: visible;
+        margin-top: 20px;
+        width: 400px;
+    }
+
 
     section img {
         height: 100%;
@@ -293,8 +334,10 @@ h2 {
 #latest2 {
     padding: 0px;
     box-sizing: border-box;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
     display: inline-block;
-    text-align: center;
     width: 100%;
     height: fit-content;
 }
@@ -307,6 +350,16 @@ h2 {
     position: relative;
     width: calc(50% - 20px);
     max-width: 200px;
+}
+
+.ep-anime {
+    display: inline-block;
+    padding: 0px;
+    margin: 0px 3px;
+    margin-bottom: 6px;
+    position: relative;
+    width: calc(50% - 20px);
+    max-width: 400px;
 }
 
 .shadow {
