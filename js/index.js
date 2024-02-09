@@ -109,7 +109,7 @@ async function getPopularAnimes(data) {
         let title = anime["title"];
         let dubbed = anime["dubbed"]
         let id = anime["id"];
-        let url = "anime.html/post/" + id;
+        let url = "/anime.html?id=" + id;
         let image = anime["thumbnail"];
         let subOrDub;
         if (dubbed = true) {
@@ -132,7 +132,7 @@ async function getRecentAnimes(data) {
         let anime = data[pos];
         let title = anime["title"];
         let id = anime["id"];
-        let url = "post/" + id;
+        let url = "/anime.html?ir=" + id;
         let image = anime["thumbnail"];
         let ep = anime["category"];
         let subOrDub;
