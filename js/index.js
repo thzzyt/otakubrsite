@@ -3,6 +3,7 @@
 const ProxyApi = ""
 const IndexApi = "/releases";
 const recentapi = "/releases/";
+const sliderapi = "/banners";
 
 // Api Server Manager
 
@@ -47,33 +48,44 @@ function shuffle(array) {
     return array;
 }
 
+
+var urll = "https://tanoshi.digital/api/v2" + sliderapi;//Sua URL
+
+var xhttp = new XMLHttpRequest();
+xhttp.open("GET", urll, false);
+xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+// console.log(xhttp.responseText);
+    // const response = await fetch(url);
+    // return await response.json();
+
+var json = xhttp.responseText;
+
+var datas = json;
+// console.log(datas);
+
 // Adding slider animes (trending animes from anilist)
 
-async function getTrendingAnimes(data) {
+// async function getTrendingAnimes(datas) {
     let SLIDER_HTML = "";
 
-    for (let pos = 0; pos < data.length; pos++) {
-        let anime = data[pos];
-        let title = anime["title"]["userPreferred"];
-        let type = anime["format"];
-        let status = anime["status"];
-        let genres = genresToString(anime["genres"]);
-        let description = anime["description"];
-        let url = "./anime.html?anime=" + encodeURIComponent(title);
+     for (let pos = 0; pos < datas.length; pos++) {
+//let pos = 0;
+        let anime = datas[pos];
+        let title = anime["titulo"];
+        let type = anime["tempo"];
+        let status = anime["idioma"];
+        let genres = anime["data"];
+        let description = anime["resumo"];
+        let urls = "./search.html?query=" + encodeURIComponent(title);
 
-        let poster = anime["bannerImage"];
-        if (poster == null) {
-            poster = anime["coverImage"]["extraLarge"];
-        }
+        let poster = anime["banner"];
 
-        SLIDER_HTML += `<div class="mySlides fade"> <div class="data-slider"> <p class="spotlight">#${pos + 1
-            } Spotlight</p><h1>${title}</h1> <div class="extra1"> <span class="year"><i class="fa fa-play-circle"></i>${type}</span> <span class="year year2"><i class="fa fa-calendar"></i>${status}</span> <span class="cbox cbox1">${genres}</span> <span class="cbox cbox2">HD</span> </div><p class="small-synop">${description}</p><div id="watchh"> <a href="${url}" class="watch-btn"> <i class="fa fa-play-circle"></i> Watch Now </a> <a href="${url}" class="watch-btn watch-btn2"> <i class="fa fa-info-circle"></i> Details<i class="fa fa-angle-right"></i> </a> </div></div><div class="shado"> <a href="${url}"></a> </div><img src="${poster}"> </div>`;
-    }
+        SLIDER_HTML += `<div class="mySlides fade"> <div class="data-slider"> <p class="spotlight">#${status} Spotlight</p><h1>${title}</h1> <div class="extra1"> <span class="year"><i class="fa fa-play-circle"></i>${type}</span> <span class="year year2"><i class="fa fa-calendar"></i>${status}</span> <span class="cbox cbox1">${genres}</span> <span class="cbox cbox2">HD</span> </div><p class="small-synop">${description}</p><div id="watchh"> <a href="${urls}" class="watch-btn"> <i class="fa fa-play-circle"></i> Watch Now </a> <a href="${urls}" class="watch-btn watch-btn2"> <i class="fa fa-info-circle"></i> Details<i class="fa fa-angle-right"></i> </a> </div></div><div class="shado"> <a href="${urls}"></a> </div><img src="${poster}"> </div>`;
 
-    document.querySelector(".slideshow-container").innerHTML =
-        SLIDER_HTML +
-        '<a class="prev" onclick="plusSlides(-1)">&#10094;</a><a class="next" onclick="plusSlides(1)">&#10095;</a>';
-}
+    document.querySelector(".slideshow-container").innerHTML = SLIDER_HTML;//+ '<a class="prev" onclick="plusSlides(-1)">&#10094;</a><a class="next" onclick="plusSlides(1)">&#10095;</a>';
+
+ }
 //episodios
 async function getEpisodesAnimes(data) {
     let EPISODES_HTML = "";
@@ -84,7 +96,7 @@ async function getEpisodesAnimes(data) {
         let dubbed = anime["date"];
         let idioma = anime["idioma"];
         let id = anime["id"];
-        let url = "anime.html/post/" + id;
+        let url = "/episode.html?anime=" + id;
         let image = anime["thumbnail"];
         let info = anime["anime"]["title"];
         let subOrDub;
@@ -109,7 +121,7 @@ async function getPopularAnimes(data) {
         let title = anime["title"];
         let dubbed = anime["dubbed"]
         let id = anime["id"];
-        let url = "/anime.html?id=" + id;
+        let url = "/anime.html?anime=" + id;
         let image = anime["thumbnail"];
         let subOrDub;
         if (dubbed = true) {
@@ -132,7 +144,7 @@ async function getRecentAnimes(data) {
         let anime = data[pos];
         let title = anime["title"];
         let id = anime["id"];
-        let url = "/anime.html?id=" + id;
+        let url = "/anime.html?anime=" + id;
         let image = anime["thumbnail"];
         let ep = anime["category"];
         let subOrDub;
@@ -213,6 +225,7 @@ function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+
 // To load more animes when scrolled to bottom
 let page = 2;
 let isLoading = false;
@@ -246,7 +259,10 @@ window.addEventListener('scroll', function () {
     }
 });
 
-
+RefreshLazyLoader();
+        showSlides(slideIndex);
+        showSlides2();
+        console.log("Sliders loaded");
 // Running functions
 
 getJson(IndexApi).then((data) => {
@@ -254,12 +270,12 @@ getJson(IndexApi).then((data) => {
     const anilistTrending = shuffle(data["mais_vistos"]);
     const gogoanimePopular = shuffle(data["ultimos_adicionados"]);
 
-    getTrendingAnimes(0).then((data) => {
-        RefreshLazyLoader();
-        showSlides(slideIndex);
-        showSlides2();
+    // getTrendingAnimes(0).then((data) => {
+        // RefreshLazyLoader();
+        // showSlides(slideIndex);
+        // showSlides2();
         console.log("Sliders loaded");
-    });
+    // });
 
     getEpisodesAnimes(EpisodesAnimes).then((data) => {
         RefreshLazyLoader();

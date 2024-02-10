@@ -1,13 +1,13 @@
 // Api urls
 
-const ProxyApi = "https://proxy.techzbots1.workers.dev/?u="
-const animeapi = "/anime/";
+const ProxyApi = "";
+const animeapi = "/post/";
 const episodeapi = "/episode/";
 const dlapi = "/download/";
 
 // Api Server Manager
 
-const AvailableServers = ['https://api1.anime-dex.workers.dev', 'https://api2.anime-dex.workers.dev', 'https://api3.anime-dex.workers.dev']
+const AvailableServers = ['https://tanoshi.digital/api/v2', 'https://animes.vision/api/v2']
 
 function getApiServer() {
     return AvailableServers[Math.floor(Math.random() * AvailableServers.length)]

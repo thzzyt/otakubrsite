@@ -1,9 +1,10 @@
 // Api urls
-
 const ProxyApi = "";
 const animeapi = "/post/";
 const recommendationsapi = "/recommendations/";
 
+var pathname = window.location.search;
+console.log(pathname);
 // Api Server Manager
 
 const AvailableServers = ['https://tanoshi.digital/api/v2', 'https://animes.vision/api/v2']
@@ -12,79 +13,82 @@ function getApiServer() {
   return AvailableServers[Math.floor(Math.random() * AvailableServers.length)]
 }
 
+async function RefreshLazyLoader() {
+    const imageObserver = new IntersectionObserver((entries, imgObserver) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const lazyImage = entry.target;
+                lazyImage.src = lazyImage.dataset.src;
+            }
+        });
+    });
+    const arr = document.querySelectorAll("img.lzy_img");
+    arr.forEach((v) => {
+        imageObserver.observe(v);
+    });
+}
+
 // Usefull functions
 
-async function getJson(path, errCount = 0) {
   const ApiServer = getApiServer();
-  let url = ApiServer + path;
+  let url = ApiServer;
 
-  if (errCount > 2) {
-    return;
-  }
+      
+  var urll = url + animeapi + pathname.replace("?anime=","");//Sua URL
 
-  if (errCount == 1) {
-    // Retry fetch using proxy
-    console.log("Retrying fetch using proxy");
-    url = ProxyApi + url;
-  }
+var xhttp = new XMLHttpRequest();
+xhttp.open("GET", urll, false);
+xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
 
-  try {
-    const response = await fetch(url);
-    return await response.json();
-  } catch (errors) {
-    console.error(errors);
-    return getJson(url, errCount + 1);
-  }
-}
+// console.log(xhttp.responseText);
+    // const response = await fetch(url);
+    // return await response.json();
 
+                var json = xhttp.responseText;
 
-function shuffle(array) {
-    
+var data = JSON.parse(json);
 
-    return array;
-}
+dat = data["data"];
 
+console.log(dat);
 
-// Function to get anime info from gogo id
-async function getloadAnimeFromGogo(data) {
-
-    let dat = data[0];
-    
-replaceAll("TITLE", dat["title"])  
+document.documentElement.innerHTML = document.documentElement.innerHTML .replaceAll("TITLE", dat["title"])  
 .replaceAll("IMG", dat["thumbnail"])
 .replaceAll("LANG", dat["language"])
 .replaceAll("TYPE", dat["type"])
 .replaceAll("URL", dat["title"])
 .replaceAll("SYNOPSIS", dat["description"])
 .replaceAll("OTHER", dat["title_alternative"])
-.replaceAll("TOTAL", dat["episodes"])
+.replaceAll("TOTAL", dat["episodes"].length)
 .replaceAll("YEAR", dat["year"])
 .replaceAll("STATUS", dat["studio"])
-.replaceAll("GENERES", dat["genre"])
+.replaceAll("GENERES", data["genres"]);
 
-  console.log("Anime Info loaded");
+    document.getElementById("main-content").style.display = "block";
+    document.getElementById("load").style.display = "none";
+    document.getElementById("watch-btn").href =
+        "./episode.html?anime=" +
+        data["episodes"][0][1].split("-episode-")[0] +
+        "&episode=" +
+        data["episodes"][0][0];
 
-  return true;
+    const anime_title = data["title"];
 
+    console.log("Anime Info loaded");
+
+RefreshLazyLoader();//Running
+
+  // await getEpList(data["episodes"]);
+
+async function getEpList(total) {
+    let ephtml = "";
+
+    for (let i = 0; i < total.length; i++) {
+        x = total[i][1].split("-episode-");
+        ephtml += `<a class="ep-btn" href="./episode.html?anime=${x[0]}&episode=${x[1]}">${x[1]}</a>`;
+    }
+    document.getElementById("ephtmldiv").innerHTML = ephtml;
+    console.log("Episode list loaded");
 }
 
-// Function to get anime info from anilist search
-
-// Function to get episode list
-
-// Function to get anime recommendations
-
-//Running functions
-
-getJson(animeapi).then((data) => {
-  
-  const loadAnimeFromGogo = shuffle(data["data"]);
- 
- getloadAnimeFromGogo(loadAnimeFromGogo).thens((data) => {
-   
-   RefreshLazyLoader();
-   
-    console.log("Anime Info loaded");
-   
- });
-                                               });
+    RefreshLazyLoader();//Running functions
