@@ -46,8 +46,8 @@
         </div>
         <div id="search-div">
             <form action="./search.html" method='GET'>
-                <input type="text" name="query" id="query" placeholder="Search Anime..." required>
-                <button name="search" type="submit"><i class="fa fa-search"></i></button>
+            <input type="text" name="query" id="query" placeholder="Search Anime..." required>
+          <button><i class="fa fa-search"></i></button>
             </form>
         </div>
     </header>
@@ -65,21 +65,18 @@
     <section id="main-section">
         <div class="divox">
             <h2 id="latest">Search Results: {{ QUERY }}</h2>
-            <div id="load">
-                <img src="./static/loading2.gif" alt="Loading..." />
-            </div>
-            <div id="latest2" style="display: none;">
+          
+            <div id="latest2" style="display: block;"></div>
 
-            </div>
         </div>
     </section>
     <hr>
-    <footer>
-        <div>
-            <a href="https://github.com/TechShreyash" target="_blank">MADE WITH <i class="fa fa-heart pulse"></i>BY TECH
-                SHREYASH</a> <a href="https://TechZBots.t.me" target="_blank">(@TechZBots)</a>
-        </div>
-    </footer>
+    <!-- <footer> -->
+        <!-- <div> -->
+            <!-- <a href="https://github.com/TechShreyash" target="_blank">MADE WITH <i class="fa fa-heart pulse"></i>BY TECH -->
+                <!-- SHREYASH</a> <a href="https://TechZBots.t.me" target="_blank">(@TechZBots)</a> -->
+        <!-- </div> -->
+    <!-- </footer> -->
     <hr>
 
     <script src="./js/search.js"></script>
