@@ -69,8 +69,8 @@ var datas = json;
 // async function getTrendingAnimes(datas) {
     let SLIDER_HTML = "";
 
-     for (let pos = 0; pos < datas.length; pos++) {
-//let pos = 0;
+     //for (let pos = 0; pos < datas.length; pos++) {
+let pos = 0;
         let anime = datas[pos];
         let title = anime["titulo"];
         let type = anime["tempo"];
@@ -85,7 +85,7 @@ var datas = json;
 
     document.querySelector(".slideshow-container").innerHTML = SLIDER_HTML;//+ '<a class="prev" onclick="plusSlides(-1)">&#10094;</a><a class="next" onclick="plusSlides(1)">&#10095;</a>';
 
- }
+ //}
 //episodios
 async function getEpisodesAnimes(data) {
     let EPISODES_HTML = "";
