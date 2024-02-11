@@ -123,7 +123,7 @@ for (let i = 0; i < eplist.length; i++) {
 
 document.getElementById("ephtmldiv").innerHTML = ephtml;
 
-//document.documentElement.innerHTML = document.documentElement.innerHTML.replaceAll("IMG", data.data["thumbnail"])
+document.documentElement.innerHTML = document.documentElement.innerHTML.replaceAll("IMG", data.data["thumbnail"])
 
 
 // Function to get selector btn
