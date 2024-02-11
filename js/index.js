@@ -83,7 +83,7 @@ let pos = 0;
 
         SLIDER_HTML += `<div class="mySlides fade"> <div class="data-slider"> <p class="spotlight">#${status} Spotlight</p><h1>${title}</h1> <div class="extra1"> <span class="year"><i class="fa fa-play-circle"></i>${type}</span> <span class="year year2"><i class="fa fa-calendar"></i>${status}</span> <span class="cbox cbox1">${genres}</span> <span class="cbox cbox2">HD</span> </div><p class="small-synop">${description}</p><div id="watchh"> <a href="${urls}" class="watch-btn"> <i class="fa fa-play-circle"></i> Watch Now </a> <a href="${urls}" class="watch-btn watch-btn2"> <i class="fa fa-info-circle"></i> Details<i class="fa fa-angle-right"></i> </a> </div></div><div class="shado"> <a href="${urls}"></a> </div><img src="${poster}"> </div>`;
 
-    document.querySelector(".slideshow-container").innerHTML = SLIDER_HTML;//+ '<a class="prev" onclick="plusSlides(-1)">&#10094;</a><a class="next" onclick="plusSlides(1)">&#10095;</a>';
+    document.querySelector(".slideshow-container").innerHTML = SLIDER_HTML + '<a class="prev" onclick="plusSlides(-1)">&#10094;</a><a class="next" onclick="plusSlides(1)">&#10095;</a>';
 
  //}
 //episodios

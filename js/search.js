@@ -15,6 +15,20 @@ function getApiServer() {
 
 // Usefull functions
 
+const ApiServer = getApiServer();
+let url = ApiServer + searchapi;
+
+var urll = url + window.location.search.replace("?query=", "").replace("=", "");//Sua URL
+
+var xhttp = new XMLHttpRequest();
+xhttp.open("GET", urll, false);
+xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
+
+// console.log(xhttp.responseText);
+// const response = await fetch(url);
+// return await response.json();
+
+var json = xhttp.responseText;
 
 async function RefreshLazyLoader() {
   const imageObserver = new IntersectionObserver((entries, imgObserver) => {
@@ -40,37 +54,25 @@ function sentenceCase(str) {
   });
 }
 
-const ApiServer = getApiServer();
-let url = ApiServer + searchapi;
-
-var urll = url + window.location.search.replace("?query=", "").replace("=", "");//Sua URL
-
-var xhttp = new XMLHttpRequest();
-xhttp.open("GET", urll, false);
-xhttp.send();//A execução do script pára aqui até a requisição retornar do servidor
-
-// console.log(xhttp.responseText);
-// const response = await fetch(url);
-// return await response.json();
-
-var json = xhttp.responseText;
-
 var data = json;
 
 const animes = data;
 const contentdiv = document.getElementById("latest2");
 const loader = document.getElementById("load");
+
 let html = "";
 
 if (animes.length == 0) {
   throw "No results found";
 }
 
+let hasNextPage = true;
+
 for (let i = 0; i < animes.length; i++) {
   
   var anime = animes[i];
   
-  let dubbed;
+  let dubbed = "";
   
   if (anime["dubbed"] = true) {
     dubbed = "DUB";
@@ -80,17 +82,18 @@ for (let i = 0; i < animes.length; i++) {
 
   let id = anime["id"];
   let title = anime["title"];
-  let views = anime["views"];
+  let assistidos = anime["views"];
   let thumbnail = anime["thumbnail"];
   let category = anime["category"];
-  let year = anime["year"];
+  let ano = anime["year"];
 
   html += `<a href="./anime.html?anime=${id}"><div class="poster la-anime"> <div id="shadow1" class="shadow"> <div class="dubb">${dubbed}</div></div><div id="shadow2" class="shadow"> <img class="lzy_img" src="./static/loading1.gif" data-src="${thumbnail}"> </div><div class="la-details"> <h3>${title}</h3> <div id="extra"> <span>${category}</span> </div></div></div></a>`;
+  }
   //RefreshLazyLoader();
-}
-
+     //return data["hasNextPage"];
 //document.querySelector(".popularg").innerHTML += html;
 
+//loader.innerHTML += html;
 contentdiv.innerHTML += html;
 
 loader.style.display = "none";
@@ -105,6 +108,7 @@ if (query == null) {
 }
 
 document.getElementById("latest").innerHTML = `Search Results: ${query}`;
+
 
 RefreshLazyLoader();
 console.log("Search animes loaded");
