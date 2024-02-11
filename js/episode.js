@@ -117,7 +117,7 @@ let ephtml = "";
 
 for (let i = 0; i < eplist.length; i++) {
   anime_id = eplist[i]["id"];
-  ep_num = eplist[i]["title"];
+  ep_num = eplist[i]["title"].replace("Episódio ", "").replace("Episodio ", "");
   ephtml += `<a class="ep-btn" href="./episode.html?anime=${anime_id}">${ep_num}</a>`;
 }
 

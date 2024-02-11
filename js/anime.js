@@ -86,7 +86,7 @@ let ephtml = "";
 for (let i = 0; i < total.length; i++) {
   x = total;
   ep_num = total[i][0];
-  ephtml += `<a class="ep-btn" href="./episode.html?anime=${x[i]["id"]}">${x[i]["title"]}</a>`;
+  ephtml += `<a class="ep-btn" href="./episode.html?anime=${x[i]["id"]}">${x[i]["title"].replace("Episódio ", "").replace("Episodio ", "")}</a>`;
 }
 document.getElementById("ephtmldiv").innerHTML = ephtml;
 console.log("Episode list loaded");
