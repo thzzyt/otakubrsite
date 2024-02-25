@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <title>Otakubr Player</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style type="text/css">
+        body {
+            background-color: #000;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js"></script>
+    <script src="https://unpkg.com/plyr@3"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BHQX4066ZV"></script>
+    <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-BHQX4066ZV');</script>
+</head>
+
+<body>
+    <div class="container">
+        <video controls crossorigin playsinline></video>
+    </div>
+
+    <script>
+        params = new URLSearchParams(location.search);
+        const source = params.get("url");
+      console.log(source);
+        document.addEventListener("DOMContentLoaded", () => {
+            const video = document.querySelector("video");
+
+            const defaultOptions = {
+                title: "{{ title }}",
+            };
+           console.log(video);
+            const player = new Plyr(video, defaultOptions);
+
+        });
+    </script>
+</body>
+
+</html>

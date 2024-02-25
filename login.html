@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tela de Login</title>
+  <link href="./css/login.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Login</h2>
+    <form id="loginForm" onsubmit="LoginUsuario(); return false;">
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit" class="login-btn">Entrar</button>
+    </form>
+    <p>Não tem uma conta? <a href="criar.html" class="register-link">Criar conta</a></p>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      async function LoginUsuario() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+          const response = await axios.post('http://localhost:3000/login', { email, password });
+          window.location.href = 'index.html';
+        } catch (error) {
+          alert(error.response.data.error);
+        }
+      }
+    </script>
+  </div>
+</body>
+</html>

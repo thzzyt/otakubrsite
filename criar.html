@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro</title>
+  <link href="./css/criar.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="register-container">
+    <h2>Cadastro</h2>
+    <form id="registerForm" onsubmit="cadastrarUsuario(); return false;">
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="input-group">
+        <label for="confirm-password">Confirmar Senha:</label>
+        <input type="password" id="confirm-password" name="confirm-password" required>
+      </div>
+      <button type="submit" class="register-btn">Cadastrar</button>
+    </form>
+    <p>Já tem uma conta? <a href="login.html" class="login-link">Faça login</a></p>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      async function cadastrarUsuario() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+          const response = await axios.post('http://localhost:3000/register', { email, password });
+          window.location.href = 'login.html';
+        } catch (error) {
+          alert(error.response.data.error);
+        }
+      }
+    </script>
+  </div>   
+</body>
+</html>
