@@ -81,6 +81,18 @@ for (let i = 0; i < total.length; i++) {
 document.getElementById("ephtmldiv").innerHTML = ephtml;
 console.log("Episode list loaded");
 
+let ephtmll = "";
+
+    for (let i = 0; i < total.length; i++) {
+        let x = x = total;
+        let ep_num = total[i][0];
+        ephtmll += `<div class=ep-slide><a href="./episode.html?anime=${x[i]["id"]}"><img onerror="retryImageLoad(this)" class="lzy_img" src="./static/loading1.gif" data-src=${x[i]["thumbnail"]}><div class=ep-title><span>${x[i]["title"]</span></div></a></div>`;
+    }
+    document.getElementById("ep-slider").innerHTML = ephtmll;
+    document.getElementById("slider-main").style.display = "block";
+    RefreshLazyLoader();
+    console.log("Episode Slider loaded");
+
 
 // Function to scroll episode slider
 function plusSlides(n) {
